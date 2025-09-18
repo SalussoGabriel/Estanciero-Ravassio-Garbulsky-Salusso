@@ -7,6 +7,9 @@
         public string Mail {  get; set; }
         public List<string> PartidasJugadas { get; set; }
 
-
+        public UsuarioEntity()
+        {
+            PartidasJugadas = new List<string>();
+        }
     }
 }

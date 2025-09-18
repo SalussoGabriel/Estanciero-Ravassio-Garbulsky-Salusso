@@ -14,5 +14,17 @@ namespace EstancieroEntities
             Finalizada,
             Suspendida
         }
+        public enum TipoCasillero
+        {
+            Inicio,
+            Provincia,
+            Multa,
+            Premio,
+        }
+        public enum EstadoJugador
+        {
+            EnJuego,
+            Derrotado
+        }
     }
 }
