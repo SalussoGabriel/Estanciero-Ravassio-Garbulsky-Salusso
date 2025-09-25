@@ -17,15 +17,19 @@ namespace EstancieroEntities
         public EstadoPartida EstadoJugador { get; set; }
         public int DniUsuario { get; set; }
         public string Detalle {  get; set; }
-        public List<CasilleroEntity> ListadoCasilleros { get; set; }
+        public int TurnoActual { get; set; }
+        public List<CasilleroTableroEntity> ListadoCasilleros { get; set; }
         public List<JugadorEnPartidaEntity> UsuariosEnPartida { get; set; }
+        public List<ConfiguracionTurno> ConfiguracionTurnos { get; set; }
         public bool GanadorSIoNO { get; set; }
-        public string MotivoGanador { get; set; }
+        public int? DniGanador { get; set;  }
+        public string? MotivoGanador { get; set; }
 
         public PartidaEntity()
         {
-            ListadoCasilleros = new List<CasilleroEntity>();
+            ListadoCasilleros = new List<CasilleroTableroEntity>();
             UsuariosEnPartida = new List<JugadorEnPartidaEntity>();
+            ConfiguracionTurnos = new List<ConfiguracionTurno>();
         }
         
 

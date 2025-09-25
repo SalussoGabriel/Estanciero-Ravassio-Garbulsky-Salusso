@@ -14,11 +14,11 @@ namespace EstancieroEntities
         public int Posicion { get; set; }
         public decimal Saldo { get; set; }
         public EstadoJugador EstadoJugador { get; set; } = EstadoJugador.EnJuego;
-        public List<MovimientoEntity> Movimientos { get; set; }
+        public List<MovimientoEntity> HistorialMovimientos { get; set; }
 
         public JugadorEnPartidaEntity()
         { 
-           Movimientos = new List<MovimientoEntity>();
+           HistorialMovimientos = new List<MovimientoEntity>();
         }
     }
 }

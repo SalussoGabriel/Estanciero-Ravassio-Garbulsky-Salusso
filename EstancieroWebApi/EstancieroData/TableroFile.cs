@@ -9,16 +9,16 @@ namespace Estanciero.Data
     {
         public static string archivo = Path.GetFullPath("datos/tablero.json");
 
-        public static List<CasilleroEntity> LeerTablero()
+        public static List<CasilleroTableroEntity> LeerTablero()
         {
             if (File.Exists(archivo))
             {
                 string json = File.ReadAllText(archivo);
-                return JsonConvert.DeserializeObject<List<CasilleroEntity>>(json);
+                return JsonConvert.DeserializeObject<List<CasilleroTableroEntity>>(json);
             }
             else
             {
-                return new List<CasilleroEntity>();
+                return new List<CasilleroTableroEntity>();
             }
         }
     }

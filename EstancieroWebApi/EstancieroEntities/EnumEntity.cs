@@ -12,7 +12,8 @@ namespace EstancieroEntities
         {
             EnJuego,
             Finalizada,
-            Suspendida
+            Suspendida,
+            Pausada
         }
         public enum TipoCasillero
         {
@@ -25,6 +26,14 @@ namespace EstancieroEntities
         {
             EnJuego,
             Derrotado
+        }
+        public enum TipoMovimiento
+        {
+            MovimientoDado,
+            CompraProvincia,
+            PagoAlquiler,
+            Multa,
+            Premio
         }
     }
 }

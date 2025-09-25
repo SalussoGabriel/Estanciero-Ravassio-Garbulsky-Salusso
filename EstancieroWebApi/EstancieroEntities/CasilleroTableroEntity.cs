@@ -7,14 +7,14 @@ using static EstancieroEntities.EnumEntity;
 
 namespace EstancieroEntities
 {
-    public class CasilleroEntity
+    public class CasilleroTableroEntity
     {
         public int NroCasillero { get; set; }
         public TipoCasillero TipoCasillero { get; set; }
         public string NombreProvincia { get; set; }
-        public decimal PrecioProvincia {  get; set; }
-        public decimal PrecioAlquilerProvincia { get; set; }
-        public int DniPropietario { get; set; }
+        public double? PrecioProvincia {  get; set; }
+        public double? PrecioAlquilerProvincia { get; set; }
+        public int? DniPropietario { get; set; }
 
     }
 }
