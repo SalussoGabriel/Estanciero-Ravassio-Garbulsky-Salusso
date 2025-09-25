@@ -9,9 +9,9 @@ namespace Estanciero.Data
     {
         public static string archivo = Path.GetFullPath("jugadores.json");
 
-        public static void EscribirJugador(UsuarioEntity jugador)
+        public static void EscribirJugador(JugadorEntity jugador)
         {
-            List<UsuarioEntity> jugadores = LeerJugadores();
+            List<JugadorEntity> jugadores = LeerJugadores();
 
             // si existe lo reemplaza
             jugadores.RemoveAll(x => x.DniUsuario == jugador.DniUsuario);
@@ -21,14 +21,14 @@ namespace Estanciero.Data
             File.WriteAllText(archivo, json);
         }
 
-        public static List<UsuarioEntity> LeerJugadores()
+        public static List<JugadorEntity> LeerJugadores()
         {
             if (File.Exists(archivo))
             {
                 string json = File.ReadAllText(archivo);
-                return JsonConvert.DeserializeObject<List<UsuarioEntity>>(json);
+                return JsonConvert.DeserializeObject<List<JugadorEntity>>(json);
             }
-            return new List<UsuarioEntity>();
+            return new List<JugadorEntity>();
         }
     }
 }
