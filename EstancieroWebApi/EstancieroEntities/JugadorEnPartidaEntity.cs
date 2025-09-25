@@ -7,7 +7,7 @@ using static EstancieroEntities.EnumEntity;
 
 namespace EstancieroEntities
 {
-    public class UsuarioEnPartidaEntity
+    public class JugadorEnPartidaEntity
     {
         public int NroPartida { get; set; }
         public int DniJugador { get; set; }
@@ -16,7 +16,7 @@ namespace EstancieroEntities
         public EstadoJugador EstadoJugador { get; set; } = EstadoJugador.EnJuego;
         public List<MovimientoEntity> Movimientos { get; set; }
 
-        public UsuarioEnPartidaEntity()
+        public JugadorEnPartidaEntity()
         { 
            Movimientos = new List<MovimientoEntity>();
         }

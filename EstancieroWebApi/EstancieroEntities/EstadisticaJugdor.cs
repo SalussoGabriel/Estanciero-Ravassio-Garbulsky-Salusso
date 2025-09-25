@@ -6,7 +6,11 @@ using System.Threading.Tasks;
 
 namespace EstancieroEntities
 {
-    internal class EstadisticaJugdor
+    public class EstadisticaJugdor
     {
+        public int PartidasJugadas { get; set; }
+        public int PartidasGanadas { get; set; }
+        public int PartidasPerdidas { get; set; }
+        public int PartidasPendientes { get; set; }
     }
 }
