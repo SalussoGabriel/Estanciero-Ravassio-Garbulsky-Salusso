@@ -2,7 +2,7 @@
 
 namespace EstancieroRequest
 {
-    public class CrearUsuarioRequest
+    public class CrearJugadorRequest
     {
         [Required(ErrorMessage ="El dni del usuario es un campo obligatorio")]
         [Range(8,8, ErrorMessage = "El dni de usuario debe ser mayor a 0")]

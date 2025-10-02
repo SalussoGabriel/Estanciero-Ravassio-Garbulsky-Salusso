@@ -14,13 +14,13 @@ namespace Estanciero.Data
         {
             List<PartidaEntity> partidas = LeerPartidas();
 
-            if (partida.IdPartida == 0)
+            if (partida.NumeroPartida == 0)
             {
-                partida.IdPartida = partidas.Count + 1;
+                partida.NumeroPartida = partidas.Count + 1;
             }
             else
             {
-                partidas.RemoveAll(x => x.IdPartida == partida.IdPartida);
+                partidas.RemoveAll(x => x.NumeroPartida == partida.NumeroPartida);
             }
 
             partidas.Add(partida);

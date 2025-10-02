@@ -1,6 +1,6 @@
 ﻿namespace EstancieroReponse
 {
-    public class UsuarioResponse
+    public class JugadorResponse
     {
         public int DniUsuario { get; set; }
         public string NombreUsuario { get; set; }

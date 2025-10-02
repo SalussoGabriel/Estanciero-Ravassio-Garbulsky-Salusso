@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 namespace EstancieroService
 {
-    internal class JuegoService
+    public class MotorDeJuegoService
     {
+
     }
 }
