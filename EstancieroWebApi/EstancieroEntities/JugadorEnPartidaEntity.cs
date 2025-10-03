@@ -9,7 +9,7 @@ namespace EstancieroEntities
 {
     public class JugadorEnPartidaEntity
     {
-        public int NroPartida { get; set; }
+        public int NumeroPartida { get; set; }
         public int DniJugador { get; set; }
         public int Posicion { get; set; }
         public decimal Saldo { get; set; }

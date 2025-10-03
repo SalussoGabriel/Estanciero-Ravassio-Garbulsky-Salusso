@@ -2,8 +2,8 @@
 {
     public class JugadorEntity
     {
-        public int DniUsuario { get; set; }
-        public string NombreUsuario { get; set; }
+        public int DniJugador { get; set; }
+        public string NombreJugador { get; set; }
         public string Mail {  get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime? FechaEliminacion { get; set; }

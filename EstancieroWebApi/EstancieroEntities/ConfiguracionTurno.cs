@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EstancieroEntities
 {
-    public class ConfiguracionTurno
+    public class ConfiguracionTurnos
     {
         public int NumeroTurno { get; set; }
         public int DniJugador { get; set; }
