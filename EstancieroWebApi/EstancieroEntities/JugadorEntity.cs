@@ -7,7 +7,7 @@
         public string Mail {  get; set; }
         public DateTime FechaRegistro { get; set; }
         public DateTime? FechaEliminacion { get; set; }
-        public EstadisticaJugdor EstadisticasJugador { get; set; }
+        public EstadisticaJugdor EstadisticasJugador { get; set; } = new EstadisticaJugdor();
 
     }
 }

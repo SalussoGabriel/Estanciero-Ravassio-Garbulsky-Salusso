@@ -1,0 +1,31 @@
+[
+  {
+    "DniJugador": 46539598,
+    "NombreJugador": "Gabriel",
+    "Mail": "gabi@gmail.com",
+    "FechaRegistro": "2025-10-13T11:00:37.607791-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": null
+  },
+  {
+    "DniJugador": 46539578,
+    "NombreJugador": "Abril",
+    "Mail": "abru@gmail.com",
+    "FechaRegistro": "2025-10-13T17:09:44.8210678-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": null
+  },
+  {
+    "DniJugador": 26058967,
+    "NombreJugador": "Marcos",
+    "Mail": "marcos@example.com",
+    "FechaRegistro": "2025-10-13T17:17:00.6248913-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 1,
+      "PartidasGanadas": 1,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  }
+]

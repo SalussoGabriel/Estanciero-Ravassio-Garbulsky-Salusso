@@ -8,9 +8,9 @@ namespace EstancieroEntities
 {
     public class EstadisticaJugdor
     {
-        public int PartidasJugadas { get; set; }
-        public int PartidasGanadas { get; set; }
-        public int PartidasPerdidas { get; set; }
-        public int PartidasPendientes { get; set; }
+        public int PartidasJugadas { get; set; } = 0;
+        public int PartidasGanadas { get; set; } = 0;
+        public int PartidasPerdidas { get; set; } =0 ;
+        public int PartidasPendientes { get; set; } = 0;
     }
 }

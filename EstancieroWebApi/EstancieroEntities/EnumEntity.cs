@@ -13,7 +13,8 @@ namespace EstancieroEntities
             EnJuego,
             Finalizada,
             Suspendida,
-            Pausada
+            Pausada,
+            Reanudar,
         }
         public enum TipoCasillero
         {

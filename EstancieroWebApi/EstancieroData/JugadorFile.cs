@@ -14,7 +14,7 @@ namespace Estanciero.Data
             List<JugadorEntity> jugadores = LeerJugadores();
 
             // si existe lo reemplaza
-            jugadores.RemoveAll(x => x.DniUsuario == jugador.DniUsuario);
+            jugadores.RemoveAll(x => x.DniJugador == jugador.DniJugador);
             jugadores.Add(jugador);
 
             string json = JsonConvert.SerializeObject(jugadores, Formatting.Indented);

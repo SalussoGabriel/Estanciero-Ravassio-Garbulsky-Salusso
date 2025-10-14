@@ -28,7 +28,7 @@ namespace EstancieroEntities
         public PartidaEntity()
         {
             TableroPartida = new List<CasilleroTableroEntity>();
-            UsuariosEnPartida = new List<JugadorEnPartidaEntity>();
+            JugadoresEnPartida = new List<JugadorEnPartidaEntity>();
             ConfiguracionTurnos = new List<ConfiguracionTurnos>();
         }
         

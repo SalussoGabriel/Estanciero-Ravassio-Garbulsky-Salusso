@@ -12,6 +12,6 @@ namespace EstancieroRequest
         [Required]
         [MinLength(2)]
         [MaxLength(4)]
-        public List<int> DniUsuarios { get; set; }
+        public List<int> DniJugadores { get; set; }
     }
 }

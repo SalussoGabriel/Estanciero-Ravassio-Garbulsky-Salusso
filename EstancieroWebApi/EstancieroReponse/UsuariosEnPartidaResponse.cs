@@ -8,11 +8,11 @@ namespace EstancieroReponse
 {
     public class UsuariosEnPartidaResponse
     {
-        public int DniUsuario { get; set; }
-        public string NombreUsuario { get; set; }
+        public int DniJugador { get; set; }
+        public string NombreJugador { get; set; }
         public int Posicion { get; set; }
         public decimal Saldo { get; set; }
-        public string EstadoUsuario { get; set; }
+        public string EstadoJugador { get; set; }
 
     }
 }

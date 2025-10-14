@@ -82,7 +82,7 @@ namespace EstancieroService
                     partidaCambio.EstadoPartida = EstadoPartida.Suspendida;
                 } else if (reaundar)
                 {
-                    partidaCambio.EstadoPartida = EstadoPartida.Re;
+                    partidaCambio.EstadoPartida = EstadoPartida.Reanudar;
                 }
                 PartidaFile.EscribirPartida(partidaCambio);
             }
