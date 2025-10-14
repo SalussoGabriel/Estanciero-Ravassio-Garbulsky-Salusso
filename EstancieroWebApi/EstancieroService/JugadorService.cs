@@ -120,6 +120,28 @@ namespace EstancieroService
             resultado.Errors.Add("DNI no registrado o inexistente.");
             return resultado;
         }
+        public ApiResponse<List<JugadorResponse>> ObtenerTodosLosJugadores()
+        {
+            ApiResponse<List<JugadorResponse>> resultado = new ApiResponse<List<JugadorResponse>>();
+            var jugadores = JugadorFile.LeerJugadores();
+            if (jugadores == null)
+            {
+                resultado.Success = false;
+                resultado.Message = "No se encontraron jugadores";
+                resultado.Errors.Add("No se encontraron jugadores");
+                return resultado;
+            }
+            var listaResponse = jugadores.Select(j => new JugadorResponse
+            {
+                DniJugador = j.DniJugador,
+                NombreJugador = j.NombreJugador,
+            }).ToList();
+            resultado.Success = true;
+            resultado.Message = "Jugadores obtenidos con exito";
+            resultado.Data = listaResponse;
+            return resultado;
+            
+        }
     }
 }
 

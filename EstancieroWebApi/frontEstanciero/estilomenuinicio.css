@@ -1,0 +1,47 @@
+body {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0%;
+    font-family: Arial, Helvetica, sans-serif;
+    background-image: url(https://i.pinimg.com/736x/be/30/4b/be304b366f9ddb5f6b4ef77ae332b0bd.jpg);
+    background-size: contain;
+    background-attachment: fixed;
+    background-position:center center ;
+}
+.menu-inicio {
+    text-align: center;
+    background-color: #27357f;
+    padding: 40px;
+    border-radius: 15px;
+}
+.menu-inicio button {
+    width: 200px;
+    padding: 15px 30px;
+    margin: 10px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+.menu-rectangulo h2{
+    color: white;
+}
+.menu-inicio button:hover {
+    background-color: #45a049;
+}
+.titulo-bandera {
+    font-size: 3.5em; 
+    font-weight: 900; 
+    text-align: center;
+    margin-bottom: 30px;
+    font-family: Arial, sans-serif; 
+}
+.celeste {
+    color: #74ACDF;; 
+}
+.blanco {
+    color: white; 
+}

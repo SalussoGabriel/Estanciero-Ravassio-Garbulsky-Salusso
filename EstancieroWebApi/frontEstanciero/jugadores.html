@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Jugadores - El Estanciero Digital</title>
+    <link rel="stylesheet" type="text/css" href="jugadores.css">
+</head>
+<body>
+    <div class="inicio-container">
+        
+        <div class="gestion-jugadores">
+            <h1 class="titulo-bandera">
+             <span class="celeste">Gestion</span>
+             <span class="blanco">de</span>
+             <span class="celeste">Jugadores</span>
+             </h1>
+                <a href="menuinicio.html" class="boton-principal">
+                    Volver al Inicio
+                </a>
+        </div> 
+        <hr> <div class="formulario-registro-jugador">
+            <h2>Crear Nuevo Jugador</h2>
+            <form id="formRegistroJugador">
+                <div class="campo-formulario">
+                    <label for="dniNuevoJugador">DNI:</label>
+                    <input type="text" id="dniNuevoJugador" name="dniNuevoJugador" required 
+                           placeholder="Ingrese el DNI del jugador">
+                    <small class="error-message" id="errorDNI"></small>
+                </div> 
+                <div class="campo-formulario">
+                    <label for="nombreNuevoJugador">Nombre:</label>
+                    <input type="text" id="nombreNuevoJugador" name="nombreNuevoJugador" required 
+                           placeholder="Ingrese el nombre del jugador">
+                </div>
+                <div class="campo-formulario">
+                    <label for="emailNuevoJugador">Email:</label>
+                    <input type="email" id="emailNuevoJugador" name="emailNuevoJugador" required 
+                           placeholder="Ingrese el email del jugador">
+                    <small class="error-message" id="errorEmail"></small>
+                </div>
+                <button type="submit" class="boton-principal">Crear Jugador</button>
+            </form>
+        </div>
+        <hr> <div class="lista-jugadores">
+            <h2>Jugadores Registrados</h2>
+            <div id="listaJugadoresRectangulo" class="cantidad-jugadores">
+                <p>Cargando lista de jugadores...</p>
+            </div>
+        </div>
+    </div>
+</body>
+<script src="script-g-jugadores.js"></script> 
+</html>
