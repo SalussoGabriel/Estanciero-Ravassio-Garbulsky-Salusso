@@ -1,17 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace EstancieroReponse
+﻿namespace EstancieroReponse
 {
     public class ProvinciaResponse
     {
         public int NroCasillero { get; set; }
-        public int NombreProvincia { get; set; }
-        public int DniPropietario { get; set; }
-
-
+        public string NombreProvincia { get; set; }  // CORRECCIÓN: debe ser string
+        public int? DniPropietario { get; set; }     // puede ser nulo si está disponible
     }
 }

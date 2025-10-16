@@ -12,9 +12,9 @@ namespace EstancieroEntities
         public int NroCasillero { get; set; }
         public TipoCasillero TipoCasillero { get; set; }
         public string NombreProvincia { get; set; }
-        public double? PrecioProvincia {  get; set; }
-        public double? PrecioAlquilerProvincia { get; set; }
+        public double? PrecioProvincia { get; set; }           // mantiene double? para compatibilidad
+        public double? PrecioAlquilerProvincia { get; set; }   // mantiene double? para compatibilidad
+        public double? Monto { get; set; }                     // <- agregado: monto para multas/premios
         public int? DniPropietario { get; set; }
-
     }
 }
