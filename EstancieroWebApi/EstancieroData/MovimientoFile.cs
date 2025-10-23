@@ -8,7 +8,6 @@ namespace Estanciero.Data
     public class MovimientoFile
     {
         public static string archivo = Path.GetFullPath("movimientos.json");
-
         public static void EscribirMovimiento(MovimientoEntity mov)
         {
             List<MovimientoEntity> lista = LeerMovimientos();
@@ -17,7 +16,6 @@ namespace Estanciero.Data
             string json = JsonConvert.SerializeObject(lista, Formatting.Indented);
             File.WriteAllText(archivo, json);
         }
-
         public static List<MovimientoEntity> LeerMovimientos()
         {
             if (File.Exists(archivo))

@@ -6,37 +6,42 @@ using System.IO;
 
 namespace Estanciero.Data
 {
-    public class PartidaFile
+    public static class PartidaFile
     {
-        public static string archivo = Path.GetFullPath("partidas.json");
-
-        public static void EscribirPartida(PartidaEntity partida)
+        public static string archivo = Path.Combine(AppContext.BaseDirectory, "partidas.json");
+        //Solucion para el numero de partida que tiraba error
+        public static int ObtenerSiguienteNumeroPartida()
         {
             List<PartidaEntity> partidas = LeerPartidas();
-
-            if (partida.NumeroPartida == 0)
+            if (partidas == null || partidas.Count == 0)
             {
-                partida.NumeroPartida = partidas.Count + 1;
+                return 1;
             }
-            else
-            {
-                partidas.RemoveAll(x => x.NumeroPartida == partida.NumeroPartida);
-            }
-
-            partidas.Add(partida);
-
-            string json = JsonConvert.SerializeObject(partidas, Formatting.Indented);
-            File.WriteAllText(archivo, json);
+            return partidas.Max(p => p.NumeroPartida) + 1;
         }
-
         public static List<PartidaEntity> LeerPartidas()
         {
             if (File.Exists(archivo))
             {
                 string json = File.ReadAllText(archivo);
-                return JsonConvert.DeserializeObject<List<PartidaEntity>>(json);
+                return JsonConvert.DeserializeObject<List<PartidaEntity>>(json) ?? new List<PartidaEntity>();
             }
             return new List<PartidaEntity>();
+        }
+        public static void EscribirPartida(PartidaEntity partida)
+        {
+            List<PartidaEntity> partidas = LeerPartidas();
+            if (partida.NumeroPartida == 0)
+            {
+                partida.NumeroPartida = ObtenerSiguienteNumeroPartida();
+            }
+            else
+            {
+                partidas.RemoveAll(x => x.NumeroPartida == partida.NumeroPartida);
+            }
+            partidas.Add(partida);
+            string json = JsonConvert.SerializeObject(partidas, Formatting.Indented);
+            File.WriteAllText(archivo, json);
         }
     }
 }

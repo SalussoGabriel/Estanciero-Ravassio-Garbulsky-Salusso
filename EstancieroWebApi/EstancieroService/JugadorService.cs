@@ -15,7 +15,6 @@ namespace EstancieroService
             var jugadores = JugadorFile.LeerJugadores();
             bool dniDuplicado = jugadores.Any(j => j.DniJugador == request.DniJugador);
             bool mailDuplicado = jugadores.Any(j => j.Mail.Equals(request.MailJugador, StringComparison.OrdinalIgnoreCase));
-
             if (dniDuplicado || mailDuplicado)
             {
                 resultado.Success = false;
@@ -53,6 +52,7 @@ namespace EstancieroService
                 resultado.Success = false;
                 resultado.Message = "Jugador no encontrado";
                 resultado.Errors.Add("Jugador no encontrado");
+                return resultado;
             }
             if (buscarJugador.EstadisticasJugador == null)
             {
@@ -124,11 +124,11 @@ namespace EstancieroService
         {
             ApiResponse<List<JugadorResponse>> resultado = new ApiResponse<List<JugadorResponse>>();
             var jugadores = JugadorFile.LeerJugadores();
-            if (jugadores == null)
+            if (jugadores == null || jugadores.Count == 0)
             {
-                resultado.Success = false;
-                resultado.Message = "No se encontraron jugadores";
-                resultado.Errors.Add("No se encontraron jugadores");
+                resultado.Success = true;
+                resultado.Message = "No se encontraron jugadores registrados, devolviendo lista vacía.";
+                resultado.Data = new List<JugadorResponse>();
                 return resultado;
             }
             var listaResponse = jugadores.Select(j => new JugadorResponse
@@ -140,7 +140,6 @@ namespace EstancieroService
             resultado.Message = "Jugadores obtenidos con exito";
             resultado.Data = listaResponse;
             return resultado;
-            
         }
     }
 }

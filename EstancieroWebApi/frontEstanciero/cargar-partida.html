@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargar Partida - El Estanciero Digital</title>
+    <link rel="stylesheet" type="text/css" href="estilo-cargar-p.css">
+</head>
+<body>
+    <div class="cargar-partida-container"> 
+        <div class="carga-partidas">
+            <h1 class="titulo-bandera">
+             <span class="celeste">Menu</span>
+             <span class="blanco">Cargar</span>
+             <span class="celeste">Partida</span>
+             </h1>
+                <a href="menuinicio.html" class="boton-principal">
+                    Volver al Inicio
+                </a>
+        </div>
+         <hr> <div class="formulario-cargar-partida">
+            <h2>Cargar Partida</h2>
+            <form id="formCargarPartida">
+                <div class="campo-formulario">
+                    <label for="numeroPartida">Numero Partida(Obligatorio):</label>
+                    <input type="text" id="numeroPartida" name="numeroPartida" required 
+                           placeholder="Ingrese el número de la partida">
+                    <small class="error-message" id="errorNumeroPartida"></small>
+                </div> 
+                <button type="submit" class="boton-principal">Cargar Partida</button>
+            </form>
+        </div>
+    </div>
+    <script src="cargar-partida.js"></script>
+</body>
+</html>

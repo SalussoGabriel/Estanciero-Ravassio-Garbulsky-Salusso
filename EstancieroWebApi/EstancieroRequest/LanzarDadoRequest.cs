@@ -13,7 +13,5 @@ namespace EstancieroRequest
         public int DniUsuario {  get; set; }
         [Required]
         public int IdPartida { get; set; }
-
-
     }
 }

@@ -11,8 +11,9 @@ namespace EstancieroEntities
     {
         public int NumeroPartida { get; set; }
         public int DniJugador { get; set; }
+        public string NombreJugador { get; set; }
         public int Posicion { get; set; }
-        public decimal Saldo { get; set; }
+        public double Saldo { get; set; }
         public EstadoJugador EstadoJugador { get; set; } = EstadoJugador.EnJuego;
         public List<MovimientoEntity> HistorialMovimientos { get; set; }
 

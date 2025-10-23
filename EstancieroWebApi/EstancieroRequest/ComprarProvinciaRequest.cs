@@ -12,7 +12,7 @@ namespace EstancieroRequest
         [Required]
         public int IdPartida {  get; set; }
         [Required(ErrorMessage ="Dni obligatorio")]
-        public int DniUsuario { get; set; }
+        public int DniJugador { get; set; }
         [Required]
         public int NroCasillero { get; set; }
 

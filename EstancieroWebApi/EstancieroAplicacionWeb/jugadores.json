@@ -27,5 +27,109 @@
       "PartidasPerdidas": 0,
       "PartidasPendientes": 0
     }
+  },
+  {
+    "DniJugador": 26058321,
+    "NombreJugador": "Marisa",
+    "Mail": "mama@gmail.com",
+    "FechaRegistro": "2025-10-15T11:16:06.1713714-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 46539591,
+    "NombreJugador": "Gabriel",
+    "Mail": "gabiiii@gmail.com",
+    "FechaRegistro": "2025-10-15T11:18:11.9891104-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 23456789,
+    "NombreJugador": "Pirulo",
+    "Mail": "piru@gmail.com",
+    "FechaRegistro": "2025-10-15T11:29:12.8848382-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 99999999,
+    "NombreJugador": "Humberto",
+    "Mail": "humbert@gmail.com",
+    "FechaRegistro": "2025-10-15T11:32:41.370171-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 11109876,
+    "NombreJugador": "Belen",
+    "Mail": "belen@gmail.com",
+    "FechaRegistro": "2025-10-22T16:15:32.6984366-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 12345,
+    "NombreJugador": "Martin",
+    "Mail": "martin@gmail.com",
+    "FechaRegistro": "2025-10-22T16:38:01.7364013-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 30205,
+    "NombreJugador": "Jeremias",
+    "Mail": "jere@gmail.com",
+    "FechaRegistro": "2025-10-22T16:38:38.5159628-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
+  },
+  {
+    "DniJugador": 50558598,
+    "NombreJugador": "Ryzen",
+    "Mail": "ryzen@gmail.com",
+    "FechaRegistro": "2025-10-23T17:13:50.8294938-03:00",
+    "FechaEliminacion": null,
+    "EstadisticasJugador": {
+      "PartidasJugadas": 0,
+      "PartidasGanadas": 0,
+      "PartidasPerdidas": 0,
+      "PartidasPendientes": 0
+    }
   }
 ]

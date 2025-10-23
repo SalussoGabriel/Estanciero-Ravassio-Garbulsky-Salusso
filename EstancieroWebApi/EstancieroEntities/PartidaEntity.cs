@@ -22,14 +22,16 @@ namespace EstancieroEntities
         public List<JugadorEnPartidaEntity> JugadoresEnPartida { get; set; }
         public List<ConfiguracionTurnos> ConfiguracionTurnos { get; set; }
         public bool GanadorSIoNO { get; set; }
-        public int? DniGanador { get; set;  }
+        public string? DniGanador { get; set;  }
         public string? MotivoGanador { get; set; }
+        public List<int> DniJugadores { get; set; }
 
         public PartidaEntity()
         {
             TableroPartida = new List<CasilleroTableroEntity>();
             JugadoresEnPartida = new List<JugadorEnPartidaEntity>();
             ConfiguracionTurnos = new List<ConfiguracionTurnos>();
+            DniJugadores = new List<int>();
         }
         
 

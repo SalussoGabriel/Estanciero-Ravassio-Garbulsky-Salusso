@@ -1,94 +1,138 @@
-let jugadoresRegistrados = []; 
+let jugadoresRegistrados = [];
 const API_BASE_URL = 'http://localhost:5203'; 
-document.addEventListener('DOMContentLoaded', inicializarGestionJugadores);
-function inicializarGestionJugadores() {
-    // 1. Conectar el formulario de registro con la función manejadora.
-    const form = document.getElementById('formRegistroJugador');
-    if (form) {
-        form.addEventListener('submit', manejarRegistroJugador);
+//Manejo de erorres, copiado del ejemplo del ejemplo que nos paso el profe
+function mostrarAlerta(mensaje, tipo = 'error') {
+    if (tipo === 'error') {
+        console.error('ERROR:', mensaje);
+        alert(`ERROR DE LA API:\n${mensaje}`);
+    } else {
+        console.log('ÉXITO:', mensaje);
+        alert(mensaje);
     }
-    // 2. Cargar la lista de jugadores existentes al abrir la página.
-    cargarJugadoresRegistrados();
 }
+//Registro del jugador con POST
 async function manejarRegistroJugador(event) {
-    event.preventDefault(); // Evita que el formulario recargue la página
-    // Obtener y limpiar los valores de los campos
-    const dni = document.getElementById('dniNuevoJugador').value.trim();
-    const nombre = document.getElementById('nombreNuevoJugador').value.trim();
-    const email = document.getElementById('emailNuevoJugador').value.trim();
-    // Validación básica
-    if (!dni || !nombre || !email) {
-        alert("Todos los campos DNI, Nombre y Email son obligatorios.");
+    event.preventDefault(); 
+    const form = event.target;
+    const dniInput = form.dniNuevoJugador.value.trim();
+    const nombre = form.nombreNuevoJugador.value.trim();
+    const email = form.emailNuevoJugador.value.trim(); 
+    if (!dniInput || !nombre || !email) {
+        mostrarAlerta('Todos los campos son obligatorios.', 'advertencia');
+        return;
+    }   
+    const dniNumero = parseInt(dniInput, 10);
+    if (isNaN(dniNumero) || dniNumero <= 0) {
+        mostrarAlerta('El DNI debe ser un número entero positivo.', 'advertencia');
         return;
     }
-    // Crear el objeto JSON con la estructura que espera la API
     const nuevoJugador = {
-        dni: dni,
-        nombre: nombre,
-        email: email
+        "dniJugador": dniNumero, 
+        "nombreJugador": nombre,
+        "mailJugador": email 
     };
     try {
-        // Realizar la solicitud POST a la API
-        const response = await fetch(`${API_BASE_URL}/Jugador`, {
+        const url = `${API_BASE_URL}/Jugador`; 
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify(nuevoJugador) // Convertir el objeto JS a JSON para el cuerpo de la solicitud
+            body: JSON.stringify(nuevoJugador)
         });
         if (response.ok) {
-            alert(`Jugador ${nombre} (DNI: ${dni}) registrado con éxito!`);
-            document.getElementById('formRegistroJugador').reset(); // Limpia el formulario
-            await cargarJugadoresRegistrados(); // Recargar la lista para mostrar el nuevo jugador
+            mostrarAlerta(`Jugador ${nombre} registrado con éxito.`, 'éxito');
+            form.reset(); 
+            await cargarJugadoresRegistrados(); 
         } else {
-            // Manejo de errores de la API (ej: DNI duplicado, validación)
-            const errorData = await response.json().catch(() => ({ message: response.statusText }));
-            alert('Error al registrar jugador: ' + errorData.message);
+            let mensajeError = `Error ${response.status} al registrar el jugador.`;
+            try {
+                const errorData = await response.json();
+                if (errorData.errors) {
+                    let detalles = ['Fallo de Validación (Bad Request 400):'];
+                    for (const key in errorData.errors) {
+                        detalles.push(`- Campo ${key}: ${errorData.errors[key].join('; ')}`);
+                    }
+                    mensajeError = detalles.join('\n');
+                } else if (errorData.title) {
+                    mensajeError = errorData.title;
+                }
+            } catch (e) {
+                console.warn("La respuesta de error no es un JSON estándar de .NET. Estado:", response.status);
+                mensajeError = `Error desconocido (${response.status}). Revise la consola.`;
+            }
+            mostrarAlerta(mensajeError, 'error');
         }
     } catch (error) {
-        // Manejo de errores de red o conexión
-        console.error('Error de conexión al registrar jugador:', error);
-        alert('Error de conexión con la API. Verifique que el servidor esté activo.');
+        console.error('Error de conexión o fallo de red:', error);
+        mostrarAlerta('Error de conexión con la API. Verifique que el servidor esté activo.', 'error');
     }
 }
+//Aca lo que hace es que carga los jugadores registrados con el GET
 async function cargarJugadoresRegistrados() {
     const listaContainer = document.getElementById('listaJugadoresRectangulo');
-    listaContainer.innerHTML = '<p>Cargando lista de jugadores...</p>'; 
+    listaContainer.innerHTML = '<p class="texto-carga">Cargando lista de jugadores...</p>'; 
     try {
-        // Realizar la solicitud GET a la API
-        const response = await fetch(`${API_BASE_URL}/Jugadores`); 
-        
+        const url = `${API_BASE_URL}/Jugador/ObtenerTodosLosJugadores`; 
+        const response = await fetch(url);
         if (response.ok) {
             const apiResponse = await response.json();
-            // Asumimos que la lista viene en la propiedad 'data' (patrón común del profe)
-            jugadoresRegistrados = Array.isArray(apiResponse.data) ? apiResponse.data : [];
+            let jugadores = Array.isArray(apiResponse) ? apiResponse : [];
+            if (jugadores.length === 0 && apiResponse && typeof apiResponse === 'object') {
+                if (Array.isArray(apiResponse.data)) {
+                    jugadores = apiResponse.data;
+                } 
+                else if (Array.isArray(apiResponse.jugadores)) {
+                    jugadores = apiResponse.jugadores;
+                }
+            }
+            jugadoresRegistrados = jugadores;
             mostrarJugadores();
         } else {
-            listaContainer.innerHTML = '<p style="color: red; font-weight: bold;">Error: No se pudo cargar la lista de jugadores.</p>';
+            listaContainer.innerHTML = `<p class="texto-error">Error ${response.status} al obtener jugadores.</p>`;
+            console.error(`Error ${response.status} al obtener jugadores.`, await response.text());
         }
     } catch (error) {
+        listaContainer.innerHTML = '<p class="texto-error">No se puede cargar la lista de jugadores. (API Caída o Error de Red)</p>';
         console.error('Error al cargar jugadores:', error);
-        listaContainer.innerHTML = '<p style="color: red; font-weight: bold;">Error de conexión con la API.</p>';
     }
 }
 function mostrarJugadores() {
     const listaContainer = document.getElementById('listaJugadoresRectangulo');
-    listaContainer.innerHTML = ''; // Limpia el contenido
+    listaContainer.innerHTML = ''; 
     if (jugadoresRegistrados.length === 0) {
-        listaContainer.innerHTML = '<p>No hay jugadores registrados aún. ¡Crea uno!</p>';
+        listaContainer.innerHTML = '<p class="texto-advertencia">No hay jugadores registrados.</p>';
         return;
     }
-    // Recorrer la lista y generar el HTML para cada jugador
     jugadoresRegistrados.forEach(jugador => {
         const jugadorDiv = document.createElement('div');
-        jugadorDiv.classList.add('jugador-item'); // Clase CSS para el estilo
-        
-        // Estructura de visualización: Nombre (en h4), DNI y Email (en p)
+        jugadorDiv.className = 'jugador-item';
+        const dni = jugador.dniJugador || jugador.DniJugador || 'N/A';
+        const nombre = jugador.nombreJugador || jugador.NombreJugador || 'N/A';
+        const pj = jugador.partidasJugadas || jugador.PartidasJugadas || 0;
+        const pg = jugador.partidasGanadas || jugador.PartidasGanadas || 0;
+        const pp = jugador.partidasPerdidas || jugador.PartidasPerdidas || 0;
+        const ppe = jugador.partidasPendientes || jugador.PartidasPendientes || 0;
         jugadorDiv.innerHTML = `
-            <h4>${jugador.nombre}</h4>
-            <p>DNI: ${jugador.dni}</p>
-            <p>Email: ${jugador.email}</p>
+            <p class="jugador-nombre">👤 ${nombre}</p>
+            <p class="jugador-detalle">DNI: ${dni}</p>
+            <div class="stats-jugador">
+                <span class="stat">Played: ${pj}</span>
+                <span class="stat">Won: ${pg}</span>
+                <span class="stat">Lost: ${pp}</span>
+                <span class="stat">Pending: ${ppe}</span>
+            </div>
         `;
         listaContainer.appendChild(jugadorDiv);
     });
 }
+function inicializarGestionJugadores() {
+    cargarJugadoresRegistrados(); 
+    const formRegistro = document.getElementById('formRegistroJugador');
+    if (formRegistro) {
+        formRegistro.addEventListener('submit', manejarRegistroJugador);
+    }
+}
+document.addEventListener('DOMContentLoaded', inicializarGestionJugadores);
+window.cargarJugadoresRegistrados = cargarJugadoresRegistrados;
+window.manejarRegistroJugador = manejarRegistroJugador;

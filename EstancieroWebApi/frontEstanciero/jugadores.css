@@ -13,7 +13,7 @@
 }
 body {
     font-family: Arial, sans-serif;
-    color: #333;
+    color: black;
     background-image: url(https://i.pinimg.com/736x/be/30/4b/be304b366f9ddb5f6b4ef77ae332b0bd.jpg);
     display: flex;
     flex-direction: column;
@@ -67,4 +67,20 @@ formulario-inicio {
     font-size: 0.9em;
     color: white;
     margin: 3px 0;
+}
+.boton-principal {
+    display: block; 
+    padding: 15px 30px;
+    margin: 20px auto 10px auto;
+    background-color: #4CAF50; 
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1em;
+    font-weight: bold;
+    text-decoration: none; 
+}
+.boton-principal:hover {
+    background-color: #45a049;
 }

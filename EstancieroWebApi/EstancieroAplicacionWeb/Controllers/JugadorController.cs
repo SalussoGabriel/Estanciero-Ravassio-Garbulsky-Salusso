@@ -56,20 +56,20 @@ namespace EstancieroWebApi.Controllers
             }
             return Ok(resultado);
         }
-        [HttpGet]
+        [HttpGet("ObtenerTodosLosJugadores")]
         public IActionResult ObtenerTodosLosJugadores()
         {
             ApiResponse<List<JugadorResponse>> resultado = new ApiResponse<List<JugadorResponse>>();
             if (!ModelState.IsValid)
             {
-                return BadRequest();
+                return BadRequest(); 
             }
             resultado = jugador.ObtenerTodosLosJugadores();
-            if (resultado.Errors.Count > 0)
+            if (resultado.Errors.Count > 0) 
             {
                 return BadRequest();
             }
-            return Ok(resultado);
+            return Ok(resultado); 
         }
     }
 }

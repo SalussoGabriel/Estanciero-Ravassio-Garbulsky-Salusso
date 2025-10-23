@@ -11,7 +11,5 @@ namespace EstancieroRequest
         [Required(ErrorMessage ="El mail es un campo obligatorio")]
         [EmailAddress(ErrorMessage ="El mail no cumple con las caracteristicas")]
         public string MailJugador { get; set; }
-
-
     }
 }

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crear Partida - El Estanciero Digital</title>
+    <link rel="stylesheet" type="text/css" href="estilo-cre-partida.css">
+</head>
+<body>
+    <div class="crear-p-container">
+        <div class="gestion-jugadores">
+            <h1 class="titulo-bandera">
+             <span class="celeste">Crear</span>
+             <span class="blanco">Nueva</span>
+             <span class="celeste">Partida</span>
+             </h1>
+                <a href="menuinicio.html" class="boton-principal">
+                    Volver al Inicio
+                </a>
+        </div> 
+        <hr> <div class="formulario-crear-partida">
+            <h2>Crear Nueva Partida</h2>
+            <form id="formCrearPartida">
+                <div class="campo-formulario">
+                    <label for="dniNuevoJugador1">DNI Jugador 1(Obligatorio):</label>
+                    <input type="text" id="dniNuevoJugador1" name="dniNuevoJugador1" required
+                           placeholder="Ingrese el DNI del jugador 1">
+                    <small class="error-message" id="errorDNI1"></small>
+                </div> 
+                 <div class="campo-formulario">
+                    <label for="dniNuevoJugador2">DNI Jugador 2(Obligatorio):</label>
+                    <input type="text" id="dniNuevoJugador2" name="dniNuevoJugador2"  required
+                           placeholder="Ingrese el DNI del jugador 2">
+                    <small class="error-message" id="errorDNI2"></small>
+                </div> 
+                <div class="campo-formulario">
+                    <label for="dniNuevoJugador3">DNI Jugador 3(Opcional):</label>
+                    <input type="text" id="dniNuevoJugador3" name="dniNuevoJugador3" 
+                           placeholder="Ingrese el DNI del jugador 3">
+                    <small class="error-message" id="errorDNI3"></small>
+                </div> 
+                <div class="campo-formulario">
+                    <label for="dniNuevoJugador4">DNI Jugador 4(Opcional):</label>
+                    <input type="text" id="dniNuevoJugador4" name="dniNuevoJugador4" 
+                           placeholder="Ingrese el DNI del jugador 4">
+                    <small class="error-message" id="errorDNI4"></small>
+                </div> 
+                <button type="submit" class="boton-principal">Crear Partida</button>
+            </form>
+         </div>
+        </hr>
+    </div>
+</body>
+<script src="crear-partida.js"></script>
+</html>
+<!-- Aca lo unico diferente que uso es el SMALL para mostrar un mensaje de error en cada campo del formulario para completar-->

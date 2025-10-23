@@ -8,7 +8,6 @@ namespace Estanciero.Data
     public class TableroFile
     {
         public static string archivo = Path.GetFullPath("datos/tablero.json");
-
         public static List<CasilleroTableroEntity> LeerTablero()
         {
             if (File.Exists(archivo))

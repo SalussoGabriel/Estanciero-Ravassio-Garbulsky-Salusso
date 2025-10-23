@@ -1,0 +1,158 @@
+body {
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #f3f4f6;
+  margin: 0;
+  padding: 20px;
+  text-align: center;
+}
+
+.titulo {
+  margin-bottom: 20px;
+}
+
+.tablero-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.jugadores {
+  width: 180px;
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  padding: 10px;
+  height: 650px;
+  overflow-y: auto;
+}
+
+.jugadores h2 {
+  font-size: 16px;
+  margin-bottom: 8px;
+}
+
+.jugador-card {
+  border: 1px solid #ddd;
+  padding: 6px;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: #fafafa;
+  text-align: left;
+}
+
+.tablero {
+  display: flex;
+  flex-direction: column;
+  background: #e0e7ff;
+  padding: 8px;
+  border-radius: 10px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+}
+
+.fila {
+  display: flex;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.columna {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 4px;
+}
+
+.centro {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4px;
+  margin: 4px 0;
+}
+
+.casilla {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  background: #fff;
+}
+
+.casilla.provincia { background: #fff9c4; }
+.casilla.multa { background: #ffcdd2; }
+.casilla.premio { background: #c8e6c9; }
+.casilla.inicio { background: #bbdefb; font-weight: bold; }
+
+.dado-area {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 200px;
+  height: 200px;
+  background: #f9fafb;
+  border: 2px dashed #9ca3af;
+  border-radius: 10px;
+}
+
+#dado {
+  font-size: 60px;
+  margin-bottom: 10px;
+}
+
+button {
+  background: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 10px;
+  cursor: pointer;
+  margin: 4px;
+}
+button:hover { 
+  background: #1d4ed8; 
+}
+.casilla {
+  width: 80px;
+  height: 80px;
+  border-radius: 6px;
+  border: 1px solid #999;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+  background: #fff;
+  /* IMPORTANTE para posicionar las fichas: */
+  position: relative; 
+  overflow: hidden; /* Oculta si la ficha se sale del límite */
+}
+
+/* Estilo para las fichas de los jugadores */
+.ficha-jugador {
+    position: absolute;
+    font-size: 18px;
+    font-weight: bold;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background-color: #2563eb; /* Color por defecto */
+    color: white;
+    line-height: 14px;
+    text-align: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.5);
+    /* Posicionamiento inicial - se ajusta por index en JS */
+    top: 5px;
+}
+
+/* Ajustes de posición para evitar solapamiento (simulación) */
+.casilla > .ficha-jugador:nth-child(1) { left: 5px; background-color: #f87171; }
+.casilla > .ficha-jugador:nth-child(2) { left: 25px; background-color: #4ade80; }
+.casilla > .ficha-jugador:nth-child(3) { left: 45px; background-color: #facc15; }
+.casilla > .ficha-jugador:nth-child(4) { left: 65px; background-color: #8b5cf6; }

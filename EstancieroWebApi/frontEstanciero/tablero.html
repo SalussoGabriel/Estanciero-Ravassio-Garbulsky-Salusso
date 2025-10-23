@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Estanciero Digital</title>
+  <link rel="stylesheet" type="text/css" href="tablero.css">
+</head>
+<body>
+  <h1 class="titulo">🎩 El Estanciero Digital</h1>
+
+  <!-- Controles de la partida -->
+  <div id="controles-partida" class="controles">
+    <button id="btnPausar">Pausar</button>
+    <button id="btnSuspender">Suspender</button>
+    <button id="btnReanudar">Reanudar</button>
+  </div>
+
+  <!-- Estado de la partida -->
+  <div id="estado-partida" class="estado">Cargando estado...</div>
+
+  <div class="tablero-container">
+    <aside class="jugadores izquierda">
+      <h2>Jugadores</h2>
+      <div id="jugadoresIzq"></div>
+    </aside>
+
+    <div class="tablero">
+      <div id="fila-superior" class="fila fila-superior"></div>
+      <div class="centro">
+        <div id="col-izquierda" class="columna col-izquierda"></div>
+        <div class="dado-area">
+          <div id="dado" class="dado">🎲</div>
+          <button id="btnTirar">Tirar dado</button>
+          <p id="turnoInfo">Turno actual: -</p>
+          <button id="btnSiguiente">Siguiente turno</button>
+        </div>
+        <div id="col-derecha" class="columna col-derecha"></div>
+      </div>
+      <div id="fila-inferior" class="fila fila-inferior"></div>
+    </div>
+
+    <aside class="jugadores derecha">
+      <h2>Estadísticas</h2>
+      <div id="jugadoresDer"></div>
+    </aside>
+  </div>
+
+  <script src="tablero.js"></script>
+</body>
+</html>
