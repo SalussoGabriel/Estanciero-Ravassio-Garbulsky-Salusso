@@ -13,5 +13,7 @@ namespace EstancieroReponse
         public EstadoPartidaResponse EstadoPartida { get; set; }
         public int TurnoActual { get; set; }
         public List<JugadorEnPartidaResponse> Jugadores { get; set; }
+        public int? DniGanador { get; set; }
+        public string? MotivoGanador { get; set; }
     }
 }

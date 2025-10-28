@@ -12,8 +12,8 @@ body {
 }
 .titulo-bandera {
   margin-bottom: 20px;
-  background-color: rgba(173, 216, 230, 0.6); /* Puedes ajustar el '0.7' (opacidad) entre 0.1 (muy transparente) y 0.9 (casi sólido) */
-  padding: 5px 10px; /* Añade un poco de espacio alrededor del texto y el fondo */
+  background-color: rgba(173, 216, 230, 0.6); 
+  padding: 5px 10px; 
   border-radius: 5px;
   display: inline-block;
 }
@@ -37,6 +37,7 @@ body {
   padding: 10px;
   height: 650px;
   overflow-y: auto;
+  color: white;
 }
 .jugadores h2 {
   font-size: 16px;

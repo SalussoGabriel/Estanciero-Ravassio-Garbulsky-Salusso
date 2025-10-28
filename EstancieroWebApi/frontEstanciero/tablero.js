@@ -1,5 +1,6 @@
 console.log("🧩 tablero.js cargado.");
 const API_BASE = "http://localhost:5203";
+
 const TABLERO_DATA_LOCAL = {
   "tablero": [
     { "nroCasillero": 0, "tipo": "inicio", "nombre": "Salida" },
@@ -35,23 +36,31 @@ const TABLERO_DATA_LOCAL = {
     { "nroCasillero": 30, "tipo": "provincia", "nombre": "Tucumán", "precioCompra": 180000, "precioAlquiler": 15000 }
   ]
 };
+
 let jugadores = [];
 let numeroPartida = 1;
 let partidaData = null;
 let posicionesMap = {};
 let turnoActualDni = null;
+
 // Inicialización
 document.addEventListener("DOMContentLoaded", async () => {
-  numeroPartida = parseInt(obtenerNumeroPartidaDesdeURL(), 10) || 1;
+  numeroPartida = parseInt(obtenerNumeroPartidaDesdeURL(), 10);
   console.log("Cargando Partida ID:", numeroPartida);
-  await inicializarTablero();
+  if (numeroPartida > 0) {
+    await inicializarTablero();
+  } else {
+    console.error("ID de Partida no válido o no encontrado.");
+  }
   configurarBotones();
 });
-// Obtener parametros de URL
+
+// Obtener parámetros de URL
 function obtenerNumeroPartidaDesdeURL() {
   const params = new URLSearchParams(window.location.search);
   return params.get("id") || params.get("partidaId") || params.get("numeroPartida");
 }
+
 // Inicializar tablero completo
 async function inicializarTablero() {
   await cargarJugadores(numeroPartida);
@@ -59,6 +68,7 @@ async function inicializarTablero() {
   renderTableroVisual();
   mostrarListaJugadores();
 }
+
 // Cargar jugadores
 async function cargarJugadores(num) {
   try {
@@ -66,12 +76,13 @@ async function cargarJugadores(num) {
     const json = await resp.json();
     if (!resp.ok || !json.success) throw new Error(json.message || "Error al cargar jugadores");
     jugadores = json.data || [];
-    console.log("🔧 DEBUG: Jugadores cargados:", jugadores);
+    console.log("🔧 Jugadores cargados:", jugadores);
   } catch (err) {
     console.error("Error cargando jugadores:", err);
     jugadores = [];
   }
 }
+
 // Obtener estado de partida
 async function obtenerEstadoPartida(num) {
   try {
@@ -81,9 +92,9 @@ async function obtenerEstadoPartida(num) {
 
     partidaData = json.data;
     posicionesMap = {};
+
     if (partidaData.jugadoresEnPartida) {
       partidaData.jugadoresEnPartida.forEach(j => {
-        // Leemos la Posicion con P mayúscula (PascalCase)
         posicionesMap[j.dniJugador] = j.Posicion;
       });
     }
@@ -96,52 +107,87 @@ async function obtenerEstadoPartida(num) {
     }
 
     const estadoElem = document.getElementById("estado-partida");
-    if (estadoElem) estadoElem.textContent = `Estado: ${partidaData.estadoPartida}`;
+    if (estadoElem) {
+      const estado = partidaData.estadoPartida;
+      estadoElem.textContent = `Estado: ${estado}`;
+
+      const btnTirar = document.getElementById("btnTirar");
+      const btnSiguiente = document.getElementById("btnSiguiente");
+      console.log("🏁 Estado recibido:", partidaData);
+
+      // Aca detecta si hay un ganador
+      const ganadorId = partidaData.dniGanador ?? partidaData.DniGanador;
+      const motivo = partidaData.motivoGanador ?? partidaData.MotivoGanador;
+
+      if (ganadorId) {
+        const nombreGanador = jugadores.find(j => j.dniJugador === ganadorId)?.nombreJugador || `DNI: ${ganadorId}`;
+
+        if (btnTirar) btnTirar.disabled = true;
+        if (btnSiguiente) btnSiguiente.disabled = true;
+
+        alert(`🏆 ¡${nombreGanador} ha ganado la partida!\nMotivo: ${motivo}`);
+
+        estadoElem.innerHTML = `
+          👑 <b>¡PARTIDA FINALIZADA!</b><br>
+          Ganador: ${nombreGanador}<br>
+          Motivo: ${motivo}
+        `;
+      } else if (estado === "Finalizada" || estado === "Suspendida") {
+        if (btnTirar) btnTirar.disabled = true;
+        if (btnSiguiente) btnSiguiente.disabled = true;
+        estadoElem.textContent = `Estado: ${estado} (Juego detenido)`;
+      } else {
+        if (btnTirar) btnTirar.disabled = false;
+        if (btnSiguiente) btnSiguiente.disabled = false;
+        estadoElem.textContent = `Estado: ${estado}`;
+      }
+    }
   } catch (err) {
     console.error("Error al obtener estado:", err);
   }
 }
+
 // Renderizar tablero visual
 function renderTableroVisual() {
-    const tableroInfo = TABLERO_DATA_LOCAL.tablero;
-    
-    const superior = document.getElementById("fila-superior");
-    const inferior = document.getElementById("fila-inferior");
-    const izq = document.getElementById("col-izquierda");
-    const der = document.getElementById("col-derecha");
+  const tableroInfo = TABLERO_DATA_LOCAL.tablero;
+  const superior = document.getElementById("fila-superior");
+  const inferior = document.getElementById("fila-inferior");
+  const izq = document.getElementById("col-izquierda");
+  const der = document.getElementById("col-derecha");
 
-    if (!superior || !inferior || !izq || !der) return;
-    
-    superior.innerHTML = '';
-    inferior.innerHTML = '';
-    izq.innerHTML = '';
-    der.innerHTML = '';
+  if (!superior || !inferior || !izq || !der) return;
 
-    const crearCasillero = (cas) => {
-        const cell = document.createElement("div");
-        cell.className = `casillero casillero-${cas.tipo}`;
-        cell.innerHTML = `<div class="casillero-num">${cas.nroCasillero}</div><div class="casillero-nombre">${cas.nombre}</div>`;
-        
-        const tokens = jugadores.filter(j => Number(posicionesMap[j.dniJugador]) === cas.nroCasillero);
-        tokens.forEach(j => {
-            const token = document.createElement("span");
-            token.className = "player-token";
-            token.textContent = j.nombreJugador ? j.nombreJugador[0] : 'J';
-            if (Number(j.dniJugador) === Number(turnoActualDni)) {
-                 token.classList.add("turno-activo");
-            }
-            cell.appendChild(token);
-        });
-        return cell;
-    };
-    
-    tableroInfo.forEach(cas => {
-        if (cas.nroCasillero <= 8) inferior.appendChild(crearCasillero(cas));
-        else if (cas.nroCasillero <= 16) izq.appendChild(crearCasillero(cas));
-        else if (cas.nroCasillero <= 24) superior.appendChild(crearCasillero(cas));
-        else der.appendChild(crearCasillero(cas));
+  superior.innerHTML = '';
+  inferior.innerHTML = '';
+  izq.innerHTML = '';
+  der.innerHTML = '';
+
+  const crearCasillero = (cas) => {
+    const cell = document.createElement("div");
+    cell.className = `casillero casillero-${cas.tipo}`;
+    cell.innerHTML = `<div class="casillero-num">${cas.nroCasillero}</div><div class="casillero-nombre">${cas.nombre}</div>`;
+
+    const tokens = jugadores.filter(j => Number(posicionesMap[j.dniJugador]) === cas.nroCasillero);
+    tokens.forEach(j => {
+      const token = document.createElement("span");
+      token.className = "player-token";
+      token.textContent = j.nombreJugador ? j.nombreJugador[0] : 'J';
+      if (Number(j.dniJugador) === Number(turnoActualDni)) {
+        token.classList.add("turno-activo");
+      }
+      cell.appendChild(token);
     });
+    return cell;
+  };
+
+  tableroInfo.forEach(cas => {
+    if (cas.nroCasillero <= 8) inferior.appendChild(crearCasillero(cas));
+    else if (cas.nroCasillero <= 16) izq.appendChild(crearCasillero(cas));
+    else if (cas.nroCasillero <= 24) superior.appendChild(crearCasillero(cas));
+    else der.appendChild(crearCasillero(cas));
+  });
 }
+
 // Lista lateral de jugadores
 function mostrarListaJugadores() {
   const contIzq = document.getElementById("jugadoresIzq");
@@ -152,8 +198,6 @@ function mostrarListaJugadores() {
   jugadores.forEach(j => {
     const dni = j.dniJugador ?? j.dni;
     const nombre = j.nombreJugador ?? j.nombre ?? "Jugador";
-    
-    
     const pos = j.posicion ?? 0;
     const saldo = j.saldo ?? 0.0;
     const estado = j.estadoJugador ?? "Activo";
@@ -164,7 +208,7 @@ function mostrarListaJugadores() {
     itemIzq.innerHTML = `
       <div>${nombre} (DNI: ${dni})</div>
       <div>Posición: ${pos}</div>
-      <div>Saldo: $${Number(saldo).toLocaleString('es-AR', { minimumFractionDigits: 0, maximumFractionDigits: 0 })}</div>
+      <div>Saldo: $${Number(saldo).toLocaleString('es-AR')}</div>
     `;
     contIzq.appendChild(itemIzq);
 
@@ -174,6 +218,7 @@ function mostrarListaJugadores() {
     contDer.appendChild(itemDer);
   });
 }
+
 // Tirar dado
 async function tirarDado() {
   try {
@@ -189,7 +234,8 @@ async function tirarDado() {
     alert(`❌ ${err.message}`);
   }
 }
-//Avanzar turno
+
+// Avanzar turno
 async function avanzarTurno() {
   try {
     const resp = await fetch(`${API_BASE}/partidas/${numeroPartida}/avanzarTurno`, { method: "PUT" });
@@ -202,34 +248,29 @@ async function avanzarTurno() {
     alert(`❌ ${err.message}`);
   }
 }
-// Pausar / Reanudar / Suspender
-async function cambiarEstado(accion) {
-    if (isNaN(numeroPartida)) {
-        alert("Error: No se encontró el ID de partida. Asegúrate de cargar la partida correctamente.");
-        return;
-    }
-    
-    try {
-        // Llama directamente al endpoint PUT /partidas/{numeroPartida}/{accion}
-        const url = `${API_BASE}/partidas/${numeroPartida}/${accion}`; 
-        
-        const resp = await fetch(url, { method: "PUT" });
-        const data = await resp.json();
-        
-        if (!resp.ok || !data.success) {
-            // Manejar errores como "Partida no encontrada"
-            throw new Error(data.message || `Error al cambiar estado a ${accion}.`);
-        }
-        
-        alert(`✅ Partida ${accion} correctamente.`);
-        // Vuelve a cargar el estado de la partida para actualizar la UI
-        await inicializarTablero(); 
 
-    } catch (error) {
-        console.error(`Error al cambiar estado a ${accion}:`, error);
-        alert(`❌ Error: ${error.message}`);
-    }
+// Cambiar estado
+async function cambiarEstado(accion) {
+  if (isNaN(numeroPartida)) {
+    alert("Error: No se encontró el ID de partida.");
+    return;
+  }
+
+  try {
+    const url = `${API_BASE}/partidas/${numeroPartida}/${accion}`;
+    const resp = await fetch(url, { method: "PUT" });
+    const data = await resp.json();
+
+    if (!resp.ok || !data.success) throw new Error(data.message || `Error al cambiar estado a ${accion}.`);
+
+    alert(`✅ Partida ${accion} correctamente.`);
+    await inicializarTablero();
+  } catch (error) {
+    console.error(`Error al cambiar estado a ${accion}:`, error);
+    alert(`❌ Error: ${error.message}`);
+  }
 }
+
 // Configuración de botones
 function configurarBotones() {
   document.getElementById("btnTirar").addEventListener("click", tirarDado);

@@ -9,6 +9,7 @@ namespace EstancieroService
     public class PartidaService
     {
         private JugadorService jugador = new JugadorService();
+        private PartidaEntity partida = new PartidaEntity();
           public ApiResponse<PartidaResponse> CrearPartida(List<int> dnisJugadores)
           {
               ApiResponse<PartidaResponse> resultado = new ApiResponse<PartidaResponse>();
@@ -67,32 +68,34 @@ namespace EstancieroService
               resultado.Data = partidaResponse;
               return resultado;
           }
-        public ApiResponse<PartidaResponse> ObtenerEstadoPartida(int numeroPartida)
-        {
-            ApiResponse<PartidaResponse> resultado = new ApiResponse<PartidaResponse>();
-            var partidas = PartidaFile.LeerPartidas();
-            var partidaBuscada = partidas.FirstOrDefault(p => p.NumeroPartida == numeroPartida);
-            if (partidaBuscada == null)
-            {
-                resultado.Success = false;
-                resultado.Message = "No se encuentra el numero de partida que se ingreso";
-                resultado.Errors.Add("No se encuentra el numero de partida que se ingreso");
-                return resultado;
-            }
-            int dniTurnoActual = partidaBuscada.ConfiguracionTurnos
-                .FirstOrDefault(c => c.NumeroTurno == partidaBuscada.TurnoActual)?.DniJugador ?? 0;
+         public ApiResponse<PartidaResponse> ObtenerEstadoPartida(int numeroPartida)
+          {
+              ApiResponse<PartidaResponse> resultado = new ApiResponse<PartidaResponse>();
+              var partidas = PartidaFile.LeerPartidas();
+              var partidaBuscada = partidas.FirstOrDefault(p => p.NumeroPartida == numeroPartida);
+              if (partidaBuscada == null)
+              {
+                  resultado.Success = false;
+                  resultado.Message = "No se encuentra el numero de partida que se ingreso";
+                  resultado.Errors.Add("No se encuentra el numero de partida que se ingreso");
+                  return resultado;
+              }
+              int dniTurnoActual = partidaBuscada.ConfiguracionTurnos
+                  .FirstOrDefault(c => c.NumeroTurno == partidaBuscada.TurnoActual)?.DniJugador ?? 0;
 
-            var partidaResponse = new PartidaResponse
-            {
-                NumeroPartida = partidaBuscada.NumeroPartida,
-                EstadoPartida = (EstadoPartidaResponse)partidaBuscada.EstadoPartida,
-                TurnoActual = dniTurnoActual,
-            };
-            resultado.Success = true;
-            resultado.Message = "Resultado devuelto con exito";
-            resultado.Data = partidaResponse;
-            return resultado;
-        }
+              var partidaResponse = new PartidaResponse
+              {
+                  NumeroPartida = partidaBuscada.NumeroPartida,
+                  EstadoPartida = (EstadoPartidaResponse)partidaBuscada.EstadoPartida,
+                  TurnoActual = dniTurnoActual,
+                  DniGanador = partidaBuscada.DniGanador,
+                  MotivoGanador = partidaBuscada.MotivoGanador
+              };
+              resultado.Success = true;
+              resultado.Message = "Resultado devuelto con exito";
+              resultado.Data = partidaResponse;
+              return resultado;
+         } 
         public ApiResponse<PartidaResponse> CambiarEstadoPartida(int numeroPartida, bool pausa, bool suspendida, bool reaundar)
         {
             ApiResponse<PartidaResponse> resultado = new ApiResponse<PartidaResponse>();
@@ -107,6 +110,14 @@ namespace EstancieroService
                 else if (suspendida)
                 {
                     partidaCambio.EstadoPartida = EstadoPartida.Suspendida;
+                    partidaCambio.FechaFin = DateTime.Now; 
+                    var ganador = partidaCambio.JugadoresEnPartida .OrderByDescending(j => j.Saldo).FirstOrDefault();
+                    if (ganador != null)
+                    {
+                        partidaCambio.DniGanador = ganador.DniJugador;
+                        partidaCambio.MotivoGanador = "Partida suspendida. Ganador por mayor saldo.";
+                        resultado.Message += $" Ganador por mayor saldo: {ganador.DniJugador}.";
+                    }
                 }
                 else if (reaundar)
                 {
@@ -143,10 +154,7 @@ namespace EstancieroService
                         Message = "No se pudo acceder a la base de datos de partidas (PartidaFile)."
                     };
                 }
-                var partidasPausadas = partidas
-                                        .Where(p => p.EstadoPartida == EstadoPartida.Pausada)
-                                        .ToList();
-
+                var partidasPausadas = partidas.Where(p => p.EstadoPartida == EstadoPartida.Pausada).ToList();
                 if (partidasPausadas.Count == 0)
                 {
                     return new ApiResponse<List<PartidaEntity>>
@@ -192,7 +200,6 @@ namespace EstancieroService
             }
             respuesta.Success = true;
             respuesta.Message = "Jugadores obtenidos con éxito.";
-
             respuesta.Data = jugadoresActivosEnPartida.Select(j =>
             {
                 var jugadorSistema = todosLosJugadoresSistema.FirstOrDefault(sysJ => sysJ.DniJugador == j.DniJugador);
@@ -212,6 +219,73 @@ namespace EstancieroService
                 return response;
             }).ToList();
             return respuesta;
+        }
+        public ApiResponse<int?> VictoriaPorCantidadDePropiedades(int numeroPartida, int dniJugador)
+        {
+            ApiResponse<int?> resultado = new ApiResponse<int?>();
+            var busquedaPartida = PartidaFile.LeerPartidas().FirstOrDefault(p => p.NumeroPartida == numeroPartida);
+            if (busquedaPartida == null)
+            {
+                resultado.Success = false;
+                resultado.Message = "Partida no encontrada.";
+                return resultado;
+            }
+            if (busquedaPartida.EstadoPartida == EstadoPartida.Finalizada)
+            {
+                resultado.Success = false;
+                resultado.Message = "La partida ya fue finalizada.";
+                return resultado;
+            }
+            // Contador de las propiedades que tiene el jugador
+            int contProvinciasCompradas = busquedaPartida.TableroPartida.Count(c => c.TipoCasillero == TipoCasillero.Provincia && c.DniPropietario == dniJugador);
+            if (contProvinciasCompradas >= 1)
+            {
+                //Console.WriteLine($"[VICTORIA LOGRADA] Partida {numeroPartida}: Jugador {dniJugador} compró la provincia #{contProvinciasCompradas}.");
+                busquedaPartida.EstadoPartida = EstadoPartida.Finalizada;
+                busquedaPartida.DniGanador = dniJugador;
+                busquedaPartida.MotivoGanador = $"Poseer {contProvinciasCompradas} o más provincias compradas.";
+                busquedaPartida.FechaFin = DateTime.Now;
+                PartidaFile.EscribirPartida(busquedaPartida);
+                resultado.Success = true;
+                resultado.Message = $"🏆 ¡El jugador {dniJugador} ha ganado la partida por tener {contProvinciasCompradas} provincias!";
+                resultado.Data = dniJugador;
+            }
+            else
+            {
+                resultado.Success = false;
+                resultado.Message = $"El jugador {dniJugador} tiene {contProvinciasCompradas} provincias, aún no gana.";
+            }
+            return resultado;
+        }
+        public ApiResponse<int?> VictoriaUnicoJugadorSaldoPositivo(int numeroPartida)
+        {
+            ApiResponse<int?> resultado = new ApiResponse<int?>();
+            var busquedaPartida = PartidaFile.LeerPartidas().FirstOrDefault(p => p.NumeroPartida == numeroPartida);
+
+            if (busquedaPartida == null || busquedaPartida.EstadoPartida != EstadoPartida.EnJuego)
+            {
+                resultado.Success = false;
+                resultado.Message = "Partida no encontrada o no está en juego.";
+                return resultado;
+            }
+            var busquedaJugadoresActivos = busquedaPartida.JugadoresEnPartida.Where(j => j.EstadoJugador == EstadoJugador.EnJuego && j.Saldo > 0).ToList();
+            if (busquedaJugadoresActivos.Count == 1)
+            {
+                int dniGanador = busquedaJugadoresActivos.First().DniJugador;
+                busquedaPartida.EstadoPartida = EstadoPartida.Finalizada;
+                busquedaPartida.DniGanador = dniGanador;
+                busquedaPartida.MotivoGanador = "Único jugador con saldo positivo.";
+                PartidaFile.EscribirPartida(busquedaPartida);
+                resultado.Success = true;
+                resultado.Message = $"¡El jugador {dniGanador} ha ganado por ser el único con saldo positivo!";
+                resultado.Data = dniGanador;
+            }
+            else
+            {
+                resultado.Success = false;
+                resultado.Message = "Aún hay más de un jugador con saldo positivo o todos están en bancarrota.";
+            }
+            return resultado;
         }
 
     }
